@@ -24,7 +24,25 @@ app.get("/api/hello", function (req, res) {
   res.json({greeting: 'hello API'});
 });
 
-
+/********************/
+/*Timestamp Microservice*/
+app.get('/api/timestamp/:date_string?', (req, res)=>{
+  let timeStamp;
+  let dateInput = req.params.date_string;
+  console.log(dateInput);
+  let newDate = new Date(dateInput);
+  //Check if the dateInput from the user produced a valid date
+  if(isNaN(newDate)){
+    console.log("the date does not work well BOOOOO!!");
+    timeStamp = { unix: null, utc: "Invalid Date" }
+  }else{
+    console.log("the date works welll: ",newDate);
+    timeStamp = { unix: newDate.getTime(), utc: newDate  }
+  }
+  
+  res.json(timeStamp);
+});
+/*******************/
 
 // listen for requests :)
 var listener = app.listen(process.env.PORT, function () {
